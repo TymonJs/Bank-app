@@ -26,6 +26,15 @@ class TestExpresTransfer(unittest.TestCase):
 
         self.assertEqual(konto.saldo,20,"Przelew nieudany")
 
+    def test_express_transfer_too_much(self):
+
+        konto = Konto_Osobiste(self.imie,self.nazwisko,self.pesel)
+        konto.saldo = 100
+
+        konto.przelew_ekspresowy(100)
+
+        self.assertEqual(konto.saldo, 100, "Saldo nie zostało zmniejszone")
+
 
     
 
