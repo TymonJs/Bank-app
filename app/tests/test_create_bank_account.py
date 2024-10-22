@@ -1,33 +1,29 @@
 import unittest
 
-from ..Konto import Konto
+from ..Konto import Konto_Osobiste
 
 class TestCreateBankAccount(unittest.TestCase):
 
-    def test_tworzenie_konta(self):
-        imie = "Dariusz"
-        nazwisko = "Januszewski"
-        pesel = "12345678900"
-        pierwsze_konto = Konto(imie,nazwisko,pesel)
+    imie = "Dariusz"
+    nazwisko = "Januszewski"
+    pesel = "61345678900"
+    kod_rabatowy="PROM_AGF"
 
-        self.assertEqual(pierwsze_konto.imie, imie, "Imie nie zostało zapisane!")
-        self.assertEqual(pierwsze_konto.nazwisko, nazwisko , "Nazwisko nie zostało zapisane!")
+    def test_tworzenie_konta(self):
+        pierwsze_konto = Konto_Osobiste(self.imie,self.nazwisko,self.pesel)
+
+        self.assertEqual(pierwsze_konto.imie, self.imie, "Imie nie zostało zapisane!")
+        self.assertEqual(pierwsze_konto.nazwisko, self.nazwisko , "Nazwisko nie zostało zapisane!")
         self.assertEqual(pierwsze_konto.saldo, 0, "Saldo nie jest zerowe!")
 
     def test_dodawanie_peselu(self):
-        imie = "Dariusz"
-        nazwisko = "Januszewski"
-        pesel = "12345678900"
-        konto = Konto(imie,nazwisko,pesel)
+        konto = Konto_Osobiste(self.imie,self.nazwisko,self.pesel)
 
-        self.assertEqual(konto.pesel, pesel, "Pesel nie został zapisany!")
+        self.assertEqual(konto.pesel, self.pesel, "Pesel nie został zapisany!")
 
     def test_dodawanie_kasy_kodem(self):
-        imie = "Dariusz"
-        nazwisko = "Januszewski"
-        pesel = "61345678900"
-        kod_rabatowy="PROM_AGF"
-        konto = Konto(imie,nazwisko,pesel,kod_rabatowy)
+        
+        konto = Konto_Osobiste(self.imie,self.nazwisko,self.pesel,self.kod_rabatowy)
         self.assertEqual(konto.saldo,50,"Kod nie został przyznany")
 
 
