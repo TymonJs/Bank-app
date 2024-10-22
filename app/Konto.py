@@ -26,6 +26,12 @@ class Konto_Osobiste(Konto):
 
             if promo=="PROM" and len(kod)==3:
                 self.saldo+=50
+    
+    def przelew_ekspresowy(self,kwota):
+        opłata = kwota+1
+        if (self.saldo >= opłata):
+            self.saldo -= opłata
+
 
 
 class Konto_Firmowe(Konto):
@@ -37,4 +43,7 @@ class Konto_Firmowe(Konto):
         if (len(str(NIP)) != 10):
             self.NIP="Niepoprawny NIP!"
 
-    
+    def przelew_ekspresowy(self,kwota):
+        opłata = kwota+5
+        if (self.saldo >= opłata):
+            self.saldo -= opłata
