@@ -14,3 +14,7 @@ class Konto:
 
             if promo=="PROM" and len(kod)==3:
                 self.saldo+=50
+
+    def wyslij_przelew(self,kwota):
+        if (self.saldo >= kwota):
+            self.saldo -= kwota
