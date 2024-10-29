@@ -21,6 +21,10 @@ class TestCreateBankAccount(unittest.TestCase):
 
         self.assertEqual(konto.pesel, self.pesel, "Pesel nie został zapisany!")
 
+    def test_za_długi_pesel(self):
+        konto = Konto_Osobiste(self.imie,self.nazwisko,"613456789001")
+        self.assertEqual(konto.pesel,"Niepoprawny pesel!", "Pesel nie został przypisany poprawnie")
+
     def test_dodawanie_kasy_kodem(self):
         
         konto = Konto_Osobiste(self.imie,self.nazwisko,self.pesel,self.kod_rabatowy)
