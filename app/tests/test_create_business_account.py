@@ -10,6 +10,10 @@ class TestCreateBusinessAccount(unittest.TestCase):
 
         self.assertEqual(konto.NIP,self.NIP,"NIP nie został zapisany")
 
+    def test_wrong_NIP(self):
+        konto = Konto_Firmowe(self.nazwa_firmy,1234)
+        self.assertEqual(konto.NIP,"Niepoprawny NIP!", "NIP nie został zapisany poprawnie")
+
 
         
 

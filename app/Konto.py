@@ -9,6 +9,8 @@ class Konto:
     def przelew_przychodzący(self,kwota):
         self.saldo+=kwota
 
+    
+
 
 class Konto_Osobiste(Konto):
     def __init__(self,imie,nazwisko,pesel,kod_rabatowy=None):
