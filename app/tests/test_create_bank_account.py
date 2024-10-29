@@ -22,7 +22,7 @@ class TestCreateBankAccount(unittest.TestCase):
         self.assertEqual(konto.pesel, self.pesel, "Pesel nie został zapisany!")
 
     def test_za_długi_pesel(self):
-        konto = Konto_Osobiste(self.imie,self.nazwisko,"613456789001")
+        konto = Konto_Osobiste(self.imie,self.nazwisko,"61345678900121312")
         self.assertEqual(konto.pesel,"Niepoprawny pesel!", "Pesel nie został przypisany poprawnie")
 
     def test_dodawanie_kasy_kodem(self):
