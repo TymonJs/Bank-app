@@ -1,13 +1,16 @@
 class Konto:
     def __init__(self):
         self.saldo = 0
+        self.historia = []
 
     def przelew_wychodzący(self,kwota):
         if (self.saldo >= kwota):
             self.saldo -= kwota
+            self.historia.append(kwota)
 
     def przelew_przychodzący(self,kwota):
         self.saldo+=kwota
+        self.historia.append(kwota)
 
     
 
@@ -30,9 +33,12 @@ class Konto_Osobiste(Konto):
                 self.saldo+=50
     
     def przelew_ekspresowy(self,kwota):
-        opłata = kwota+1
+        fee = 1
+        opłata = kwota+fee
         if (self.saldo >= opłata):
             self.saldo -= opłata
+            self.historia.append(kwota)
+            self.historia.append(fee)
 
 
 
@@ -46,6 +52,9 @@ class Konto_Firmowe(Konto):
             self.NIP="Niepoprawny NIP!"
 
     def przelew_ekspresowy(self,kwota):
-        opłata = kwota+5
+        fee = 5
+        opłata = kwota+fee
         if (self.saldo >= opłata):
             self.saldo -= opłata
+            self.historia.append(kwota)
+            self.historia.append(fee)
