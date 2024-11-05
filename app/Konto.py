@@ -1,3 +1,5 @@
+
+
 class Konto:
     def __init__(self):
         self.saldo = 0
@@ -6,7 +8,7 @@ class Konto:
     def przelew_wychodzący(self,kwota):
         if (self.saldo >= kwota):
             self.saldo -= kwota
-            self.historia.append(kwota)
+            self.historia.append(kwota*(-1))
 
     def przelew_przychodzący(self,kwota):
         self.saldo+=kwota
@@ -37,9 +39,13 @@ class Konto_Osobiste(Konto):
         opłata = kwota+fee
         if (self.saldo >= opłata):
             self.saldo -= opłata
-            self.historia.append(kwota)
-            self.historia.append(fee)
+            self.historia.append(kwota*(-1))
+            self.historia.append(fee*(-1))
 
+    def zaciągnij_kredyt(self,kwota):
+        # if (len(self.historia)>=3 and all([True if elem > 0 else False for elem in histRev[:3] ])) or (len(self.historia)>=5 and sum(histRev[:5])>kwota):
+        if last_three_transasctions_are_positive(self.historia) or last_five_transactions_greater_than_loan(self.historia,kwota):
+            self.saldo+=kwota
 
 
 class Konto_Firmowe(Konto):
@@ -56,5 +62,19 @@ class Konto_Firmowe(Konto):
         opłata = kwota+fee
         if (self.saldo >= opłata):
             self.saldo -= opłata
-            self.historia.append(kwota)
-            self.historia.append(fee)
+            self.historia.append(kwota*(-1))
+            self.historia.append(fee*(-1))
+
+
+def last_three_transasctions_are_positive(hist):
+    histRev = hist[::-1]
+    if (len(hist)>=3 and all([True if elem > 0 else False for elem in histRev[:3] ])):
+        return True
+    return False
+
+def last_five_transactions_greater_than_loan(hist,kwota):
+    histRev = hist[::-1]
+    if (len(hist)>=5 and sum(histRev[:5])>kwota):
+        return True
+    return False
+        

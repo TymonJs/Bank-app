@@ -16,7 +16,7 @@ class TestSendTransfers(unittest.TestCase):
             konto.przelew_przychodzący(50)
             konto.przelew_wychodzący(10)
             konto.przelew_ekspresowy(100)
-            self.assertEqual(konto.historia,[100,50,10,100,1],"Historia została zapisana niepoprawnie")
+            self.assertEqual(konto.historia,[100,50,-10,-100,-1],"Historia została zapisana niepoprawnie")
 
     def test_historia_przelewu_konto_firmowe(self):
             konto = Konto_Firmowe(self.nazwa_firmy, self.NIP)
@@ -24,4 +24,4 @@ class TestSendTransfers(unittest.TestCase):
             konto.przelew_przychodzący(50)
             konto.przelew_wychodzący(10)
             konto.przelew_ekspresowy(100)
-            self.assertEqual(konto.historia,[100,50,10,100,5],"Historia została zapisana niepoprawnie")
+            self.assertEqual(konto.historia,[100,50,-10,-100,-5],"Historia została zapisana niepoprawnie")
