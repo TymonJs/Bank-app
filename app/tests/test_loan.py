@@ -12,10 +12,10 @@ class TestLoan(unittest.TestCase):
         self.konto=Konto_Osobiste(self.imie,self.nazwisko,self.pesel)
 
     @parameterized.expand([
-        ("Check if last 3 are positive",[100,200,300],100,100),
-        ("Last 5 are greater than loan",[1000,100,200,300,-200,-100],100,100),
-        ("Last 3 are positive failed",[200,100,300],100,0),
-        ("Last 5 are greater than loan failed",[1000,100,100,100,-100,-200],100,0)
+        ("Last 3 transactions aren't positive",[100,200,300],100,100),
+        ("Last 5 transactions aren't greater than the loan",[1000,100,200,300,-200,-100],100,100),
+        ("Last 3 transactions are positive",[200,-100,300],100,0),
+        ("Last 5 transactions are greater than loan",[1000,100,100,100,-100,-200],100,0)
     ])
     def test_loan(self,name,history,loan,expected):
         self.konto.historia = history
@@ -43,7 +43,7 @@ class TestLoan(unittest.TestCase):
     # def test_take_loan_A_failed(self):
 
 
-    #     self.konto.historia = [200,100,300]
+    #     self.konto.historia = [200,-100,300]
 
     #     self.konto.zaciągnij_kredyt(100)
 
