@@ -1,3 +1,5 @@
+
+
 class Konto:
     def __init__(self):
         self.saldo = 0
@@ -41,13 +43,9 @@ class Konto_Osobiste(Konto):
             self.historia.append(fee*(-1))
 
     def zaciągnij_kredyt(self,kwota):
-        histRev = self.historia[::-1]
-        
-        if (len(self.historia)>=3 and all([True if elem > 0 else False for elem in histRev[:3] ])) or (len(self.historia)>=5 and sum(histRev[:5])>kwota):
+        # if (len(self.historia)>=3 and all([True if elem > 0 else False for elem in histRev[:3] ])) or (len(self.historia)>=5 and sum(histRev[:5])>kwota):
+        if last_three_transasctions_are_positive(self.historia) or last_five_transactions_greater_than_loan(self.historia,kwota):
             self.saldo+=kwota
-
-
-
 
 
 class Konto_Firmowe(Konto):
@@ -66,3 +64,17 @@ class Konto_Firmowe(Konto):
             self.saldo -= opłata
             self.historia.append(kwota*(-1))
             self.historia.append(fee*(-1))
+
+
+def last_three_transasctions_are_positive(hist):
+    histRev = hist[::-1]
+    if (len(hist)>=3 and all([True if elem > 0 else False for elem in histRev[:3] ])):
+        return True
+    return False
+
+def last_five_transactions_greater_than_loan(hist,kwota):
+    histRev = hist[::-1]
+    if (len(hist)>=5 and sum(histRev[:5])>kwota):
+        return True
+    return False
+        

@@ -1,5 +1,5 @@
 import unittest
-
+from parameterized import parameterized
 from ..Konto import Konto_Osobiste,Konto_Firmowe
 
 class TestLoan(unittest.TestCase):
@@ -7,53 +7,52 @@ class TestLoan(unittest.TestCase):
     nazwisko = "Januszewski"
     pesel = "65345678900"
 
-    def test_take_loan_A(self):
-        konto=Konto_Osobiste(self.imie,self.nazwisko,self.pesel)
+    #def tearDown
+    def setUp(self):
+        self.konto=Konto_Osobiste(self.imie,self.nazwisko,self.pesel)
 
-        konto.przelew_przychodzący(100)
-        konto.przelew_przychodzący(200)
-        konto.przelew_przychodzący(300)
+    @parameterized.expand([
+        ("Check if last 3 are positive",[100,200,300],100,100),
+        ("Last 5 are greater than loan",[1000,100,200,300,-200,-100],100,100),
+        ("Last 3 are positive failed",[200,100,300],100,0),
+        ("Last 5 are greater than loan failed",[1000,100,100,100,-100,-200],100,0)
+    ])
+    def test_loan(self,name,history,loan,expected):
+        self.konto.historia = history
 
-        konto.zaciągnij_kredyt(100)
+        self.konto.zaciągnij_kredyt(loan)
+        self.assertEqual(self.konto.saldo,expected, name)
 
-        self.assertEqual(konto.saldo,700,"Kredyt nieudany")
+    # def test_take_loan_A(self):
+        
 
-    def test_take_loan_B(self):
-        konto=Konto_Osobiste(self.imie,self.nazwisko,self.pesel)
+    #     self.konto.historia = [100,200,300]
 
-        konto.przelew_przychodzący(1000)
-        konto.przelew_przychodzący(100)
-        konto.przelew_przychodzący(200)
-        konto.przelew_przychodzący(300)
+    #     self.konto.zaciągnij_kredyt(100)
 
-        konto.przelew_wychodzący(200)
-        konto.przelew_wychodzący(100)
+    #     self.assertEqual(self.konto.saldo,100,"Kredyt nieudany")
 
-        konto.zaciągnij_kredyt(100)
+    # def test_take_loan_B(self):
 
-        self.assertEqual(konto.saldo,1400,"Kredyt nieudany")
+    #     self.konto.historia = [1000,100,200,300,-200,-100]
 
-    def test_take_loan_A_failed(self):
-        konto=Konto_Osobiste(self.imie,self.nazwisko,self.pesel)
+    #     self.konto.zaciągnij_kredyt(100)
 
-        konto.przelew_przychodzący(200)
-        konto.przelew_wychodzący(100)
-        konto.przelew_przychodzący(300)
-        konto.zaciągnij_kredyt(100)
+    #     self.assertEqual(self.konto.saldo,100,"Kredyt nieudany")
 
-        self.assertEqual(konto.saldo,400,"Kredyt nieudany")
+    # def test_take_loan_A_failed(self):
 
-    def test_take_loan_B_failed(self):
-        konto=Konto_Osobiste(self.imie,self.nazwisko,self.pesel)
 
-        konto.przelew_przychodzący(1000)
-        konto.przelew_przychodzący(100)
-        konto.przelew_przychodzący(100)
-        konto.przelew_przychodzący(100)
+    #     self.konto.historia = [200,100,300]
 
-        konto.przelew_wychodzący(100)
-        konto.przelew_wychodzący(200)
+    #     self.konto.zaciągnij_kredyt(100)
 
-        konto.zaciągnij_kredyt(100)
+    #     self.assertEqual(self.konto.saldo,0,"Kredyt nieudany")
 
-        self.assertEqual(konto.saldo,1000,"Kredyt nieudany")
+    # def test_take_loan_B_failed(self):
+
+    #     self.konto.historia = [1000,100,100,100,-100,-200]
+
+    #     self.konto.zaciągnij_kredyt(100)
+
+    #     self.assertEqual(self.konto.saldo,0,"Kredyt nieudany")
