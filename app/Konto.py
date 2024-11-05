@@ -6,7 +6,7 @@ class Konto:
     def przelew_wychodzący(self,kwota):
         if (self.saldo >= kwota):
             self.saldo -= kwota
-            self.historia.append(kwota)
+            self.historia.append(kwota*(-1))
 
     def przelew_przychodzący(self,kwota):
         self.saldo+=kwota
@@ -37,8 +37,16 @@ class Konto_Osobiste(Konto):
         opłata = kwota+fee
         if (self.saldo >= opłata):
             self.saldo -= opłata
-            self.historia.append(kwota)
-            self.historia.append(fee)
+            self.historia.append(kwota*(-1))
+            self.historia.append(fee*(-1))
+
+    def zaciągnij_kredyt(self,kwota):
+        histRev = self.historia[::-1]
+        
+        if (len(self.historia)>=3 and all([True if elem > 0 else False for elem in histRev[:3] ])) or (len(self.historia)>=5 and sum(histRev[:5])>kwota):
+            self.saldo+=kwota
+
+
 
 
 
@@ -56,5 +64,5 @@ class Konto_Firmowe(Konto):
         opłata = kwota+fee
         if (self.saldo >= opłata):
             self.saldo -= opłata
-            self.historia.append(kwota)
-            self.historia.append(fee)
+            self.historia.append(kwota*(-1))
+            self.historia.append(fee*(-1))
