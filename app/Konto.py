@@ -65,6 +65,12 @@ class Konto_Firmowe(Konto):
             self.historia.append(kwota*(-1))
             self.historia.append(fee*(-1))
 
+    def zaciągnij_kredyt(self,kwota):
+        ZUS_payment=1775
+        if (self.saldo>2*kwota) and (ZUS_payment in self.historia):
+            self.saldo+=kwota
+
+
 
 def last_three_transasctions_are_positive(hist):
     histRev = hist[::-1]
