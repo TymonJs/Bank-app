@@ -2,7 +2,7 @@ import unittest
 from parameterized import parameterized
 from ..Konto import Konto_Osobiste,Konto_Firmowe
 
-class TestLoan(unittest.TestCase):
+class TestPersonalLoan(unittest.TestCase):
     imie = "Dariusz"
     nazwisko = "Januszewski"
     pesel = "65345678900"
@@ -17,11 +17,35 @@ class TestLoan(unittest.TestCase):
         ("Last 3 transactions are positive",[200,-100,300],100,0),
         ("Last 5 transactions are greater than loan",[1000,100,100,100,-100,-200],100,0)
     ])
-    def test_loan(self,name,history,loan,expected):
+    def test_personal_loan(self,name,history,loan,expected):
         self.konto.historia = history
 
         self.konto.zaciągnij_kredyt(loan)
         self.assertEqual(self.konto.saldo,expected, name)
+
+class TestBusinessLoan(unittest.TestCase):
+
+    NIP=1231231231
+    nazwa_firmy="Super firma"
+
+    def setUp(self):
+        self.konto=Konto_Firmowe(self.nazwa_firmy,self.NIP)
+
+    @parameterized.expand([
+        ("Account balance isn't at least 2 times the loan",[100,-50,1775],100,40,140),
+        ("Incorrect balance info",[100,-50,1775],100,70,100),
+        ("Account doesn't have a ZUS payment",[100,-50,1774],100,40,100),
+        ("Incorrect ZUS info",[100,-50,1774],100,40,100)
+
+    ])
+    def test_business_loan_balance(self,name,history,saldo,loan,expected):
+
+        self.konto.saldo=saldo
+        self.konto.historia=history
+
+        self.konto.zaciągnij_kredyt(loan)
+        self.assertEqual(self.konto.saldo,expected,name)
+
 
     # def test_take_loan_A(self):
         
