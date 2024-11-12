@@ -32,10 +32,9 @@ class TestBusinessLoan(unittest.TestCase):
         self.konto=Konto_Firmowe(self.nazwa_firmy,self.NIP)
 
     @parameterized.expand([
-        ("Account balance isn't at least 2 times the loan",[100,-50,1775],100,40,140),
-        ("Incorrect balance info",[100,-50,1775],100,70,100),
-        ("Account doesn't have a ZUS payment",[100,-50,1774],100,40,100),
-        ("Incorrect ZUS info",[100,-50,1774],100,40,100)
+        ("Account balance isn't at least 2 times the loan",[1775],100,40,140),
+        ("Incorrect balance info",[1775],100,70,100),
+        ("Account doesn't have a ZUS payment",[1774],100,40,100)
 
     ])
     def test_business_loan_balance(self,name,history,saldo,loan,expected):
