@@ -15,7 +15,7 @@ class TestApi(unittest.TestCase):
 
     def test_get_account_by_pesel(self):
 
-        r = requests.get(f"http://127.0.0.1:5000/api/accounts/{self.data["pesel"]}")
+        r = requests.get(f"http://127.0.0.1:5000/api/accounts/{self.data['pesel']}")
 
         self.assertEqual(r.status_code,200,"Account not found")
         self.assertEqual(r.json(),self.fullData,"Wrong account was found")
@@ -26,12 +26,12 @@ class TestApi(unittest.TestCase):
         self.assertEqual(r.status_code,404,"Pesel search failed")
         
     def test_update_account(self):
-        r = requests.patch(f"http://127.0.0.1:5000/api/accounts/{self.data["pesel"]}",json={"name":"adam"})
+        r = requests.patch(f"http://127.0.0.1:5000/api/accounts/{self.data['pesel']}",json={"name":"adam"})
 
         self.assertEqual(r.status_code,200,"Account hasn't been updated")
 
     def test_zdelete_account(self):
         
-        r = requests.delete(f"http://127.0.0.1:5000/api/accounts/{self.data["pesel"]}")
+        r = requests.delete(f"http://127.0.0.1:5000/api/accounts/{self.data['pesel']}")
 
         self.assertEqual(r.status_code,200)
