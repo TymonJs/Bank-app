@@ -14,6 +14,12 @@ class AccountsRegistry:
         for acc in cls.registry:
             if acc.pesel==id:
                 return acc
+        return None
+    @classmethod
+    def delete_account(cls,pesel):
+        cls.registry.remove(cls.search_by_id(pesel))
+
+
 
     
 

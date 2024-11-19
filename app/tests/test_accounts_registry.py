@@ -30,3 +30,8 @@ class TestAccountsRegistry(unittest.TestCase):
 
         self.assertEqual(AccountsRegistry.search_by_id(self.pesel1),self.konto,"Registry didn't search for the correct account")        
 
+    def test_delete_account(self):
+        AccountsRegistry.delete_account(self.pesel1)
+        self.assertEqual(AccountsRegistry.search_by_id(self.pesel1),None,"Account didn't get deleted")
+
+

@@ -1,6 +1,6 @@
 from flask import Flask, request, jsonify
-from app.AccountsRegistry import AccountsRegistry
-from app.Konto import Konto_Osobiste
+from AccountsRegistry import AccountsRegistry
+from Konto import Konto_Osobiste
 
 app = Flask(__name__)
 
@@ -24,4 +24,33 @@ def get_account_by_pesel(pesel):
     if konto == None:
         return jsonify({"error":"account not found"}),404
     
-    return jsonify({"imie": konto.imie, "nazwisko": konto.nazwisko,"saldo":konto.saldo, "pesel": konto.pesel }), 200
+    return jsonify({"name": konto.imie, "surname": konto.nazwisko,"saldo":konto.saldo, "pesel": konto.pesel }), 200
+
+
+@app.route("/api/accounts/<pesel>", methods=['PATCH'])
+def update_account(pesel):
+
+    konto = AccountsRegistry.search_by_id(pesel)
+    if konto == None:
+        return jsonify({"error":"account not found"}),404
+    
+    data = request.get_json()
+
+    for key in data:
+        if key == "name":
+            konto.imie=data["name"]
+        elif key == "surname":
+            konto.nazwisko=data["surname"]
+        elif key == "pesel":
+            konto.pesel=data["pesel"]
+
+    return jsonify({"message": "Account updated"}), 200
+
+@app.route("/api/accounts/<pesel>", methods=['DELETE'])
+def delete_account(pesel):
+    AccountsRegistry.delete_account(pesel)
+    return jsonify({"message": "Account deleted"}), 200
+
+
+if __name__ == "__main__":
+    app.run(debug=True)
