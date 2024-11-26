@@ -7,7 +7,8 @@ app = Flask(__name__)
 @app.route("/api/accounts", methods=['POST'])
 def create_account():
     data = request.get_json()
-    print(f"Create account request: {data}")
+    if AccountsRegistry.search_by_id(data["pesel"]):
+        return jsonify({"message": "Account of this pesel already exists"}),409
     konto = Konto_Osobiste(data["name"], data["surname"], data["pesel"])
     AccountsRegistry.add_account(konto)
     return jsonify({"message": "Account created"}), 201
