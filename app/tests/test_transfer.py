@@ -11,16 +11,18 @@ class TestSendTransfers(unittest.TestCase):
         
         konto = Konto_Osobiste(self.imie,self.nazwisko,self.pesel)
         konto.saldo = 100
-        konto.przelew_wychodzący(20)
+        success = konto.przelew_wychodzący(20)
 
         self.assertEqual(konto.saldo,80,"Przelew nieudany")
+        self.assertEqual(success,True)
 
     def test_wyslanie_przelewu_za_duzo(self):
 
         konto = Konto_Osobiste(self.imie,self.nazwisko,self.pesel)
         konto.saldo = 80
-        konto.przelew_wychodzący(100)
+        success = konto.przelew_wychodzący(100)
         self.assertEqual(konto.saldo,80,"Przelew nieudany")
+        self.assertEqual(success,False)
 
     def test_otrzymanie_przelewu(self):
         konto = Konto_Osobiste(self.imie,self.nazwisko,self.pesel)

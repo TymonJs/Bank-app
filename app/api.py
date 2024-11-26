@@ -47,7 +47,35 @@ def update_account(pesel):
 
     return jsonify({"message": "Account updated"}), 200
 
+
 @app.route("/api/accounts/<pesel>", methods=['DELETE'])
 def delete_account(pesel):
     AccountsRegistry.delete_account(pesel)
     return jsonify({"message": "Account deleted"}), 200
+
+@app.route("/api/accounts/<pesel>/transfer",methods=["POST"])
+def transfer(pesel):
+    data = request.get_json()
+    typ = data["type"]
+    amount = data["amount"]
+    account = AccountsRegistry.search_by_id(pesel)
+    if not account:
+        return jsonify({"message":"Nie znaleziono konta"}),404
+    
+    elif typ == "incoming":
+        account.przelew_przychodzący(amount)
+
+    elif typ == "outgoing":
+        transfer_successful = account.przelew_wychodzący(amount)
+        if not transfer_successful:
+            return jsonify({"message":"Transfer nieudany"}),422
+
+    elif typ == "express":
+        transfer_successful = account.przelew_ekspresowy(amount)
+        if not transfer_successful:
+            return jsonify({"message": "Transfer nieudany"}),422
+    else:
+        return jsonify({"message":"Transfer type not recognised"}),405
+        
+    return jsonify({"message":"Zlecenie przyjęto do realizacji"}),200
+
