@@ -63,15 +63,15 @@ def transfer(pesel):
         return jsonify({"message":"Nie znaleziono konta"}),404
     
     elif typ == "incoming":
-        konto.przelew_przychodzący(amount)
+        account.przelew_przychodzący(amount)
 
     elif typ == "outgoing":
-        transfer_successful = konto.przelew_wychodzący(amount)
+        transfer_successful = account.przelew_wychodzący(amount)
         if not transfer_successful:
             return jsonify({"message":"Transfer nieudany"}),422
 
     elif typ == "express":
-        transfer_successful = konto.przelew_ekspresowy(amount)
+        transfer_successful = account.przelew_ekspresowy(amount)
         if not transfer_successful:
             return jsonify({"message": "Transfer nieudany"}),422
     else:

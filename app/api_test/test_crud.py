@@ -40,22 +40,22 @@ class TestApi(unittest.TestCase):
         r = requests.post(f"http://127.0.0.1:5000/api/accounts/{self.data["pesel"]}/transfer",json={"type":"incoming","amount":500})
         self.assertEqual(r.status_code,200)
     
-    def test_transfer_outcoming(self):
-        konto = AccountsRegistry.search_by_id(self.data["pesel"])
-        konto.saldo = 1000
-        r = requests.post(f"http://127.0.0.1:5000/api/accounts/{self.data["pesel"]}/transfer",json={"type":"outcoming","amount":500})
+    def test_transfer_outgoing(self):
+        requests.post(f"http://127.0.0.1:5000/api/accounts/{self.data['pesel']}/transfer",json={"type":"incoming","amount":1000})
+
+        r = requests.post(f"http://127.0.0.1:5000/api/accounts/{self.data["pesel"]}/transfer",json={"type":"outgoing","amount":500})
         self.assertEqual(r.status_code,200)
 
-    def test_transfer_outcoming_express(self):
-        konto = AccountsRegistry.search_by_id(self.data["pesel"])
-        konto.saldo = 1000
+    def test_transfer_outgoing_express(self):
+        requests.post(f"http://127.0.0.1:5000/api/accounts/{self.data['pesel']}/transfer",json={"type":"incoming","amount":1000})
+
         r = requests.post(f"http://127.0.0.1:5000/api/accounts/{self.data["pesel"]}/transfer",json={"type":"express","amount":500})
         self.assertEqual(r.status_code,200)
 
-    def test_transfer_outcoming_too_much(self):
-        konto = AccountsRegistry.search_by_id(self.data["pesel"])
-        konto.saldo = 100
-        r = requests.post(f"http://127.0.0.1:5000/api/accounts/{self.data["pesel"]}/transfer",json={"type":"outcoming","amount":500})
+    def test_transfer_outgoing_too_much(self):
+        requests.post(f"http://127.0.0.1:5000/api/accounts/{self.data['pesel']}",json={"type":"incoming","amount":100})
+
+        r = requests.post(f"http://127.0.0.1:5000/api/accounts/{self.data["pesel"]}/transfer",json={"type":"outgoing","amount":500})
         self.assertEqual(r.status_code,422)
 
     def test_transfer_wrong_type(self):
