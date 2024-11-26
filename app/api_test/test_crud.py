@@ -6,12 +6,13 @@ class TestApi(unittest.TestCase):
     data = {"name":"james","surname":"hetfield","pesel":"12312312312"}
     fullData = {**data,"saldo":0}
 
+    def setUp(self):
+        r = requests.post("http://127.0.0.1:5000/api/accounts",json=self.data)
+        self.assertEqual(r.status_code,201)
 
-    def test_create_account(self):
-        
-        r = requests.post("http://127.0.0.1:5000/api/accounts", json=self.data)
-        
-        self.assertEqual(r.status_code,201,"Account hasn't been created")
+    def tearDown(self):
+        r = requests.delete(f"http://127.0.0.1:5000/api/accounts/{self.data["pesel"]}")
+        self.assertEqual(r.status_code,200)
 
     def test_get_account_by_pesel(self):
 
@@ -30,8 +31,7 @@ class TestApi(unittest.TestCase):
 
         self.assertEqual(r.status_code,200,"Account hasn't been updated")
 
-    def test_zdelete_account(self):
-        
-        r = requests.delete(f"http://127.0.0.1:5000/api/accounts/{self.data['pesel']}")
+    def test_pesel_already_taken(self):
+        r = requests.post("http://127.0.0.1:5000/api/accounts",json=self.data)
 
-        self.assertEqual(r.status_code,200)
+        self.assertEqual(r.status_code,409)
