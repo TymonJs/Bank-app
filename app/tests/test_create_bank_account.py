@@ -1,6 +1,7 @@
 import unittest
 
-from ..Konto import Konto_Osobiste
+from ..Konto_Osobiste import Konto_Osobiste
+from parameterized import parameterized
 
 class TestCreateBankAccount(unittest.TestCase):
 
@@ -16,19 +17,26 @@ class TestCreateBankAccount(unittest.TestCase):
         self.assertEqual(pierwsze_konto.nazwisko, self.nazwisko , "Nazwisko nie zostało zapisane!")
         self.assertEqual(pierwsze_konto.saldo, 0, "Saldo nie jest zerowe!")
 
-    def test_dodawanie_peselu(self):
-        konto = Konto_Osobiste(self.imie,self.nazwisko,self.pesel)
 
-        self.assertEqual(konto.pesel, self.pesel, "Pesel nie został zapisany!")
+    @parameterized.expand([
+        (pesel,pesel,"Pesel nie został zapisany!"),
+        ("61345678900121312","Niepoprawny pesel!","Pesel nie został przypisany poprawnie")
+    ])
+    def test_pesel(self,input,expected,msg):
+        konto = Konto_Osobiste(self.imie,self.nazwisko,input)
 
-    def test_za_długi_pesel(self):
-        konto = Konto_Osobiste(self.imie,self.nazwisko,"61345678900121312")
-        self.assertEqual(konto.pesel,"Niepoprawny pesel!", "Pesel nie został przypisany poprawnie")
+        self.assertEqual(konto.pesel,expected,msg)
 
-    def test_dodawanie_kasy_kodem(self):
+
+    @parameterized.expand([
+        (kod_rabatowy,50,"Błąd przy dobryn kodzie "),
+        ("kod",0,"Błąd przy złym kodzie"),
         
-        konto = Konto_Osobiste(self.imie,self.nazwisko,self.pesel,self.kod_rabatowy)
-        self.assertEqual(konto.saldo,50,"Kod nie został przyznany")
+    ])
+    def test_dodawanie_kasy_kodem(self,input,expected,mesg):
+        
+        konto = Konto_Osobiste(self.imie,self.nazwisko,self.pesel,input)
+        self.assertEqual(konto.saldo,expected,mesg)
 
 
 

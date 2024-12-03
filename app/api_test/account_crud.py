@@ -1,7 +1,6 @@
 import unittest
 import requests
-from ..Konto import Konto_Osobiste
-from ..AccountsRegistry import AccountsRegistry
+from ..Konto_Osobiste import Konto_Osobiste
 class TestApi(unittest.TestCase):
     data = {"name":"james","surname":"hetfield","pesel":"12312312312"}
     fullData = {**data,"saldo":0}

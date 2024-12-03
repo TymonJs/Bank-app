@@ -1,6 +1,6 @@
 from flask import Flask, request, jsonify
-from AccountsRegistry import AccountsRegistry
-from Konto import Konto_Osobiste
+from AccountRegistry import AccountRegistry
+from .Konto_Osobiste import Konto_Osobiste
 
 app = Flask(__name__)
 
@@ -9,18 +9,18 @@ def create_account():
     data = request.get_json()
     print(f"Create account request: {data}")
     konto = Konto_Osobiste(data["name"], data["surname"], data["pesel"])
-    AccountsRegistry.add_account(konto)
+    AccountRegistry.add_account(konto)
     return jsonify({"message": "Account created"}), 201
 
 @app.route("/api/accounts/count", methods=['GET'])
 def account_count():
-    count = AccountsRegistry.get_accounts_count()
+    count = AccountRegistry.get_accounts_count()
     return jsonify({"Account count": count}),200
 
 @app.route("/api/accounts/<pesel>", methods=['GET'])
 def get_account_by_pesel(pesel):
 
-    konto = AccountsRegistry.search_by_id(pesel)
+    konto = AccountRegistry.search_by_id(pesel)
     if konto == None:
         return jsonify({"error":"account not found"}),404
     
@@ -30,7 +30,7 @@ def get_account_by_pesel(pesel):
 @app.route("/api/accounts/<pesel>", methods=['PATCH'])
 def update_account(pesel):
 
-    konto = AccountsRegistry.search_by_id(pesel)
+    konto = AccountRegistry.search_by_id(pesel)
     if konto == None:
         return jsonify({"error":"account not found"}),404
     
@@ -48,5 +48,5 @@ def update_account(pesel):
 
 @app.route("/api/accounts/<pesel>", methods=['DELETE'])
 def delete_account(pesel):
-    AccountsRegistry.delete_account(pesel)
+    AccountRegistry.delete_account(pesel)
     return jsonify({"message": "Account deleted"}), 200

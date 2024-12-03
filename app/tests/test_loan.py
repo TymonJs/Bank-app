@@ -1,6 +1,8 @@
 import unittest
 from parameterized import parameterized
-from ..Konto import Konto_Osobiste,Konto_Firmowe
+from ..Konto_Firmowe import Konto_Firmowe
+from ..Konto_Osobiste import Konto_Osobiste
+from unittest.mock import patch
 
 class TestPersonalLoan(unittest.TestCase):
     imie = "Dariusz"
@@ -28,7 +30,9 @@ class TestBusinessLoan(unittest.TestCase):
     NIP=8461627563
     nazwa_firmy="Super firma"
 
-    def setUp(self):
+    @patch("app.Konto_Firmowe.Konto_Firmowe.sprawdźNIP")
+    def setUp(self,sprawdźNIP):
+        sprawdźNIP.return_value=True
         self.konto=Konto_Firmowe(self.nazwa_firmy,self.NIP)
 
     @parameterized.expand([
@@ -38,6 +42,7 @@ class TestBusinessLoan(unittest.TestCase):
 
     ])
     def test_business_loan_balance(self,name,history,saldo,loan,expected):
+        
 
         self.konto.saldo=saldo
         self.konto.historia=history

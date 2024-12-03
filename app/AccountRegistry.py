@@ -1,4 +1,4 @@
-class AccountsRegistry:
+class AccountRegistry:
     registry= []
 
     @classmethod
