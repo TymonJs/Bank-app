@@ -25,7 +25,7 @@ class TestPersonalLoan(unittest.TestCase):
 
 class TestBusinessLoan(unittest.TestCase):
 
-    NIP=1231231231
+    NIP=8461627563
     nazwa_firmy="Super firma"
 
     def setUp(self):

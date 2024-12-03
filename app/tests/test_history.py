@@ -8,7 +8,7 @@ class TestSendTransfers(unittest.TestCase):
     pesel = "65345678900"
 
     nazwa_firmy = "Testowa firma"
-    NIP = 1231231231
+    NIP = 8461627563
 
     def test_historia_przelewu_konto_osobiste(self):
             konto = Konto_Osobiste(self.imie,self.nazwisko, self.pesel)
