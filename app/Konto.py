@@ -1,3 +1,7 @@
+import requests
+from datetime import datetime
+from os import getenv
+
 class Konto:
     def __init__(self):
         self.saldo = 0
@@ -55,6 +59,9 @@ class Konto_Firmowe(Konto):
         if (len(str(NIP)) != 10):
             self.NIP="Niepoprawny NIP!"
 
+        elif not self.sprawdźNIP(NIP):
+            raise ValueError("Company not registered!")
+
     def przelew_ekspresowy(self,kwota):
         fee = 5
         opłata = kwota+fee
@@ -67,6 +74,17 @@ class Konto_Firmowe(Konto):
         ZUS_payment=1775
         if (self.saldo>2*kwota) and (ZUS_payment in self.historia):
             self.saldo+=kwota
+    
+    def sprawdźNIP(self,NIP):
+
+        today = datetime.today().strftime('%Y-%m-%d')
+        url = getenv("BANK_APP_MF_URL","https://wl-api.mf.gov.pl/api/search/nip/")
+        r = requests.get(f"{url}{NIP}?date={today}")
+        status = r.status_code==200
+
+        print(f"NIP: {NIP} is {status}")
+        return status
+
 
 
 

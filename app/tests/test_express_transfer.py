@@ -8,7 +8,7 @@ class TestExpresTransfer(unittest.TestCase):
     pesel = "65345678900"
 
     nazwa_firmy="super firma"
-    NIP = 1231231231
+    NIP = 8461627563
 
     def test_express_transfer_personal_account(self):
         konto = Konto_Osobiste(self.imie,self.nazwisko,self.pesel)
