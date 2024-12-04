@@ -10,7 +10,7 @@ class TestApi(unittest.TestCase):
         self.assertEqual(r.status_code,201)
 
     def tearDown(self):
-        r = requests.delete(f"http://127.0.0.1:5000/api/accounts/{self.data["pesel"]}")
+        r = requests.delete(f"http://127.0.0.1:5000/api/accounts/{self.data['pesel']}")
         self.assertEqual(r.status_code,200)
 
     def test_get_account_by_pesel(self):
