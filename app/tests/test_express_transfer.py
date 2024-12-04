@@ -17,8 +17,9 @@ class TestExpresTransfer(unittest.TestCase):
         konto = Konto_Osobiste(self.imie,self.nazwisko,self.pesel)
         konto.saldo = 50
 
-        konto.przelew_ekspresowy(29)
+        success = konto.przelew_ekspresowy(29)
 
+        self.assertEqual(success,True)
         self.assertEqual(konto.saldo,20,"Przelew nieudany")
 
     @patch("app.Konto_Firmowe.Konto_Firmowe.sprawdźNIP")
@@ -27,18 +28,34 @@ class TestExpresTransfer(unittest.TestCase):
         konto = Konto_Firmowe(self.nazwa_firmy,self.NIP)
         konto.saldo = 50
 
-        konto.przelew_ekspresowy(25)
+        success = konto.przelew_ekspresowy(25)
 
         self.assertEqual(konto.saldo,20,"Przelew nieudany")
+        self.assertEqual(success,True)
 
-    def test_express_transfer_too_much(self):
+    def test_express_transfer_too_much_personal(self):
 
         konto = Konto_Osobiste(self.imie,self.nazwisko,self.pesel)
         konto.saldo = 100
 
-        konto.przelew_ekspresowy(100)
+        success = konto.przelew_ekspresowy(100)
 
         self.assertEqual(konto.saldo, 100, "Saldo nie zostało zmniejszone")
+        self.assertEqual(success,False)
+
+    @patch("app.Konto_Firmowe.Konto_Firmowe.sprawdźNIP")
+    def test_express_transfer_too_much_business(self,sprawdźNIP):
+
+        sprawdźNIP.result_value = True
+
+        konto = Konto_Firmowe(self.nazwa_firmy,self.NIP)
+        konto.saldo = 100
+
+        success = konto.przelew_ekspresowy(100)
+
+        self.assertEqual(konto.saldo, 100, "Saldo nie zostało zmniejszone")
+        self.assertEqual(success,False)
+
 
 
     

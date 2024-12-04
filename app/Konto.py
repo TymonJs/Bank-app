@@ -7,6 +7,8 @@ class Konto:
         if (self.saldo >= kwota):
             self.saldo -= kwota
             self.historia.append(kwota*(-1))
+            return True
+        return False
 
     def przelew_przychodzący(self,kwota):
         self.saldo+=kwota

@@ -23,6 +23,8 @@ class Konto_Firmowe(Konto):
             self.saldo -= opłata
             self.historia.append(kwota*(-1))
             self.historia.append(fee*(-1))
+            return True
+        return False
 
     def zaciągnij_kredyt(self,kwota):
         ZUS_payment=1775

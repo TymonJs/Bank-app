@@ -24,6 +24,8 @@ class Konto_Osobiste(Konto):
             self.saldo -= opłata
             self.historia.append(kwota*(-1))
             self.historia.append(fee*(-1))
+            return True
+        return False
 
     def zaciągnij_kredyt(self,kwota):
         # if (len(self.historia)>=3 and all([True if elem > 0 else False for elem in histRev[:3] ])) or (len(self.historia)>=5 and sum(histRev[:5])>kwota):
