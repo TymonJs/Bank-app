@@ -1,4 +1,6 @@
 from .Konto import Konto
+from datetime import datetime
+from .SMTPClient import SMTPClient
 
 class Konto_Osobiste(Konto):
     def __init__(self,imie,nazwisko,pesel,kod_rabatowy=None):
@@ -6,6 +8,7 @@ class Konto_Osobiste(Konto):
         self.imie = imie
         self.nazwisko = nazwisko
         self.pesel = pesel
+        self.email_text = "Twoja historia konto to"
 
         if (len(pesel) != 11):
             self.pesel = "Niepoprawny pesel!"
@@ -31,6 +34,7 @@ class Konto_Osobiste(Konto):
         # if (len(self.historia)>=3 and all([True if elem > 0 else False for elem in histRev[:3] ])) or (len(self.historia)>=5 and sum(histRev[:5])>kwota):
         if last_three_transasctions_are_positive(self.historia) or last_five_transactions_greater_than_loan(self.historia,kwota):
             self.saldo+=kwota
+
 
 def last_three_transasctions_are_positive(hist):
     histRev = hist[::-1]

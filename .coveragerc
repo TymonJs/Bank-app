@@ -1,0 +1,6 @@
+[coverage:report]
+show_missing = True
+
+[coverage:run]
+omit =
+    app/SMTPClient.py
