@@ -2,13 +2,14 @@ from .Konto import Konto
 import requests
 from datetime import datetime
 from os import getenv
-
+from .SMTPClient import SMTPClient
 
 class Konto_Firmowe(Konto):
     def __init__(self,nazwa_firmy,NIP):
         super().__init__()
         self.nazwa_firmy=nazwa_firmy
         self.NIP=NIP
+        self.email_text = "Historia konta twojej firmy to"
 
         if (len(str(NIP)) != 10):
             self.NIP="Niepoprawny NIP!"
@@ -38,7 +39,7 @@ class Konto_Firmowe(Konto):
         r = requests.get(f"{url}{NIP}?date={today}")
         status = r.status_code==200
 
-        print(f"NIP: {NIP} is {status}")
+        # print(f"NIP: {NIP} is {status}")
         return status
 
 
