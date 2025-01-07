@@ -1,7 +1,7 @@
 from behave import *
 import requests
 from unittest_assertions import AssertEqual
-
+from string import digits
 assert_equal = AssertEqual()
 URL = "http://localhost:5000"
 
@@ -44,7 +44,9 @@ def update_field(context, field, pesel, value):
     response = requests.patch(URL + f"/api/accounts/{pesel}", json = json_body)
     assert_equal(response.status_code, 200)
 
-@then('Account with pesel "{pesel}" has "{field}" equal to "{value}"')
+@step('Account with pesel "{pesel}" has "{field}" equal to "{value}"')
 def field_equals_to(context, pesel, field, value):
-    #TODO
-    pass
+    r = requests.get(URL + f"/api/accounts/{pesel}")
+    to_check = r.json()[field]
+    assert_equal(str(to_check),str(value))
+    assert_equal(r.status_code,200)
