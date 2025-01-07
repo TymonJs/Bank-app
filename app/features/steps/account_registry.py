@@ -16,13 +16,15 @@ def create_account(context, name, last_name, pesel):
 
 @step('Number of accounts in registry equals: "{count}"')
 def is_account_count_equal_to(context, count):
-    #TODO
-    pass
+    create_resp = requests.get(URL + "/api/accounts/count")
+    assert_equal(create_resp.status_code,200)
+    assert_equal(int(create_resp.json()["Account count"]),int(count))
 
 @step('Account with pesel "{pesel}" exists in registry')
 def check_account_with_pesel_exists(context, pesel):
-    #TODO
-    pass
+    create_resp = requests.get(URL + f"/api/accounts/{pesel}")
+    assert_equal(create_resp.status_code,200)
+    assert_equal(create_resp.json()["pesel"],pesel)
 
 @step('Account with pesel "{pesel}" does not exist in registry')
 def check_account_with_pesel_does_not_exist(context, pesel):
@@ -31,8 +33,8 @@ def check_account_with_pesel_does_not_exist(context, pesel):
 
 @when('I delete account with pesel: "{pesel}"')
 def delete_account(context, pesel):
-    #TODO
-    pass
+    r = requests.delete(URL + f"/api/accounts/{pesel}")
+    assert_equal(r.status_code,200)
     
 @when('I update "{field}" of account with pesel: "{pesel}" to "{value}"')
 def update_field(context, field, pesel, value):
