@@ -25,7 +25,7 @@ def get_account_by_pesel(pesel):
     if konto == None:
         return jsonify({"error":"account not found"}),404
     
-    return jsonify({"name": konto.imie, "surname": konto.nazwisko,"saldo":konto.saldo, "pesel": konto.pesel }), 200
+    return jsonify({"name": konto.imie, "surname": konto.nazwisko,"balance":konto.saldo, "pesel": konto.pesel }), 200
 
 
 @app.route("/api/accounts/<pesel>", methods=['PATCH'])

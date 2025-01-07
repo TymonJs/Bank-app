@@ -3,7 +3,7 @@ import requests
 from ..Konto_Osobiste import Konto_Osobiste
 class TestApi(unittest.TestCase):
     data = {"name":"james","surname":"hetfield","pesel":"12312312312"}
-    fullData = {**data,"saldo":0}
+    fullData = {**data,"balance":0}
 
     def setUp(self):
         r = requests.post("http://127.0.0.1:5000/api/accounts",json=self.data)
@@ -16,7 +16,6 @@ class TestApi(unittest.TestCase):
     def test_get_account_by_pesel(self):
 
         r = requests.get(f"http://127.0.0.1:5000/api/accounts/{self.data['pesel']}")
-
         self.assertEqual(r.status_code,200,"Account not found")
         self.assertEqual(r.json(),self.fullData,"Wrong account was found")
 
