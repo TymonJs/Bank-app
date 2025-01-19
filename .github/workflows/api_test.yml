@@ -1,4 +1,4 @@
-name: Python application
+name: Api test
 
 on:
   push:
