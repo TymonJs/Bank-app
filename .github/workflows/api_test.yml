@@ -33,7 +33,7 @@ jobs:
         flake8 . --count --exit-zero --max-complexity=10 --max-line-length=127 --statistics
     - name: Api test
       run: |
-        flask --app app/api.py --debug run &
+        python3 -m flask --app api.py run &
         python3 -m unittest .\app\api_performance_test\test_api_performance.py
         python3 -m coverage run -m unittest .\app\api_performance_test\test_api_performance.py
         python3 -m coverage report --fail-under=100
