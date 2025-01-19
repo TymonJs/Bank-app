@@ -1,5 +1,5 @@
 from flask import Flask, request, jsonify
-from AccountRegistry import AccountRegistry
+from .AccountRegistry import AccountRegistry
 from .Konto_Osobiste import Konto_Osobiste
 
 app = Flask(__name__)
