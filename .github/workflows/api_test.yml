@@ -36,6 +36,6 @@ jobs:
         python3 -m flask --app app/api.py run &
     - name: Api test
       run: |
-        python3 -m unittest .\app\api_performance_test\test_api_performance.py
-        python3 -m coverage run -m unittest .\app\api_performance_test\test_api_performance.py
+        python3 -m unittest app\api_test\account_crud.py
+        python3 -m coverage run -m unittest app\api_test\account_crud.py
         python3 -m coverage report --fail-under=100
