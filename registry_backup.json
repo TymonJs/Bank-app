@@ -1,0 +1,11 @@
+{
+    "registry": [
+        {
+            "imie": "Dariusz",
+            "nazwisko": "Januszewski",
+            "pesel": "12312312312",
+            "saldo": 0,
+            "historia": []
+        }
+    ]
+}

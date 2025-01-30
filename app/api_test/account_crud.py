@@ -59,3 +59,11 @@ class TestApi(unittest.TestCase):
     def test_transfer_wrong_type(self):
         r = requests.post(f"http://127.0.0.1:5000/api/accounts/{self.data['pesel']}/transfer",json={"type":"none","amount":500})
         self.assertEqual(r.status_code,405)
+
+    def test_load_backup(self):
+        r = requests.patch("http://127.0.0.1:5000/api/backup")
+        self.assertEqual(r.status_code,200)
+
+    def test_save_backup(self):
+        r = requests.post("http://127.0.0.1:5000/api/backup")
+        self.assertEqual(r.status_code,200)

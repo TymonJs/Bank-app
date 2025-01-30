@@ -1,4 +1,5 @@
 import unittest
+import json
 
 from ..AccountRegistry import AccountRegistry
 from ..Konto_Osobiste import Konto_Osobiste
@@ -33,6 +34,23 @@ class TestAccountsRegistry(unittest.TestCase):
         AccountRegistry.add_account(konto3)
 
         self.assertEqual(AccountRegistry.search_by_id(self.pesel1),self.konto,"Registry didn't search for the correct account")        
+
+    def test_save_backup(self):
+        AccountRegistry.save_registry()
+        try:
+            with open("registry_backup.json","r",encoding="utf-8") as backup:
+                reg = json.load(backup)
+                self.assertEqual(len(reg["registry"]),1)
+        except:
+            self.assertEqual(True,False)
+    
+    def test_load_backup(self):
+        regBefore = AccountRegistry.registry
+        AccountRegistry.load_registry()
+        regAfter = AccountRegistry.registry
+        self.assertNotEqual(regBefore,regAfter)
+
+        
 
 
 

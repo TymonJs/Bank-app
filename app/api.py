@@ -79,3 +79,13 @@ def transfer(pesel):
         
     return jsonify({"message":"Zlecenie przyjęto do realizacji"}),200
 
+@app.route("/api/backup",methods=["POST","PATCH"])
+def backup():
+    if request.method == "POST":
+        res = AccountRegistry.load_registry()
+        if not res:
+            return jsonify({"message": "Kopia zapasowa rejestru jeszcze nie istnieje"}),406
+        return jsonify({"message": "Rejestr został wczytany z kopii zapasowej"}),200
+    elif request.method == "PATCH":
+        AccountRegistry.save_registry()
+        return jsonify({"message": "Kopia zapasowa rejestru została zapisana"}),200
